@@ -47,6 +47,11 @@ function New-OktaApp($app, $activate = $true, $page = $false) {
     }
 }
 
+<#
+    Documentation: https://developer.okta.com/docs/reference/api/apps/#get-application
+    Example call:
+    > Get-OktaApp "0oaiyzdd0vA4d3DeP3l6"
+#>
 function Get-OktaApp($appid) {
     Invoke-Method GET "/api/v1/apps/$appid"
 }
