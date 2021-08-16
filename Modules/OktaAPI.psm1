@@ -48,6 +48,7 @@ function New-OktaApp($app, $activate = $true, $page = $false) {
 }
 
 <#
+    Fetches an application from your Okta organization by id.
     Documentation: https://developer.okta.com/docs/reference/api/apps/#get-application
     Example call:
     > Get-OktaApp "0oaiyzdd0vA4d3DeP3l6"
@@ -56,6 +57,15 @@ function Get-OktaApp($appid) {
     Invoke-Method GET "/api/v1/apps/$appid"
 }
 
+<#
+    Enumerates apps added to your organization with pagination. A subset of apps can be returned that match a supported filter expression or query.
+    Documentation: https://developer.okta.com/docs/reference/api/apps/#list-applications
+    Example calls:
+    > Get-OktaApps
+    > $GoogleWorkspace = Get-OktaApps -q "Google Workspace" 
+    > $GoogleWorkspace.objects
+#>
+
 function Get-OktaApps($filter, $limit = 20, $expand, $url = "/api/v1/apps?filter=$filter&limit=$limit&expand=$expand&q=$q", $q) {
     Invoke-PagedMethod $url
 }
@@ -63,6 +73,13 @@ function Get-OktaApps($filter, $limit = 20, $expand, $url = "/api/v1/apps?filter
 function Set-OktaApp($appid, $app) {
     Invoke-Method PUT "/api/v1/apps/$appid" $app
 }
+
+<#
+    Assigns a user to an application for SSO and optionally provisioning (if an added body parameter, "profile", is sent in the request) if the app supports provisioning.
+    Documentation: https://developer.okta.com/docs/reference/api/apps/#assign-user-to-application-for-sso
+    and https://developer.okta.com/docs/reference/api/apps/#assign-user-to-application-for-sso-and-provisioning
+
+#>
 
 function Add-OktaAppUser($appid, $appuser) {
     Invoke-Method POST "/api/v1/apps/$appid/users" $appuser
